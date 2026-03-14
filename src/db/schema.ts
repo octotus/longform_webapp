@@ -1,0 +1,57 @@
+export const DDL = `
+CREATE TABLE IF NOT EXISTS articles (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL DEFAULT '',
+  contentMd TEXT NOT NULL DEFAULT '',
+  createdAt INTEGER NOT NULL,
+  updatedAt INTEGER NOT NULL,
+  wordCount INTEGER NOT NULL DEFAULT 0,
+  citationStyleId TEXT NOT NULL DEFAULT 'nature'
+);
+
+CREATE TABLE IF NOT EXISTS "references" (
+  id TEXT PRIMARY KEY,
+  articleId TEXT NOT NULL,
+  shortcode TEXT NOT NULL DEFAULT '',
+  doi TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL DEFAULT '',
+  title TEXT NOT NULL DEFAULT '',
+  authors TEXT NOT NULL DEFAULT '',
+  year TEXT NOT NULL DEFAULT '',
+  journal TEXT NOT NULL DEFAULT '',
+  volume TEXT NOT NULL DEFAULT '',
+  issue TEXT NOT NULL DEFAULT '',
+  pages TEXT NOT NULL DEFAULT '',
+  bibtex TEXT NOT NULL DEFAULT '',
+  sortOrder INTEGER NOT NULL DEFAULT 0,
+  FOREIGN KEY (articleId) REFERENCES articles(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS nlp_snapshots (
+  id TEXT PRIMARY KEY,
+  articleId TEXT NOT NULL,
+  timestamp INTEGER NOT NULL,
+  readabilityScore REAL NOT NULL DEFAULT 0,
+  passivePct REAL NOT NULL DEFAULT 0,
+  hedgePct REAL NOT NULL DEFAULT 0,
+  wordCount INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS citation_styles (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  isBuiltIn INTEGER NOT NULL DEFAULT 0,
+  schemaJson TEXT NOT NULL,
+  createdAt INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS corpus_documents (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL DEFAULT '',
+  sourceUrl TEXT NOT NULL DEFAULT '',
+  contentText TEXT NOT NULL DEFAULT '',
+  embedding BLOB,
+  addedAt INTEGER NOT NULL,
+  wordCount INTEGER NOT NULL DEFAULT 0
+);
+`;
