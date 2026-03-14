@@ -1,5 +1,7 @@
-import initSqlJs from 'sql.js';
-import type { Database } from 'sql.js';
+// @ts-ignore – sql.js ships CJS; Vite pre-bundles it and exposes .default
+import SqlJsInit from 'sql.js';
+import type { Database, SqlJsStatic } from 'sql.js';
+const initSqlJs: (config?: object) => Promise<SqlJsStatic> = (SqlJsInit as any).default ?? SqlJsInit;
 import { DDL } from './schema';
 import { builtInStyles } from '../core/citation/builtInStyles';
 import { GLOBAL_ARTICLE_ID } from '../types';
@@ -10,7 +12,7 @@ export async function getDb(): Promise<Database> {
   if (db) return db;
 
   const SQL = await initSqlJs({
-    locateFile: (file: string) => `https://sql.js.org/dist/${file}`
+    locateFile: (_file: string) => `/sql-wasm-browser.wasm`
   });
 
   // Try to load from localStorage

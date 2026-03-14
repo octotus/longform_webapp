@@ -4,13 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  optimizeDeps: {
-    exclude: ['sql.js']
+  resolve: {
+    alias: {
+      'sql.js': 'sql.js/dist/sql-wasm-browser.js',
+    },
   },
-  server: {
-    headers: {
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin',
-    }
-  }
+  optimizeDeps: {
+    include: ['sql.js'],
+  },
 })
