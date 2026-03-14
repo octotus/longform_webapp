@@ -60,6 +60,7 @@ All items to be actioned after testing is complete.
 | F8 | **Focus** — When timer expires, show a non-intrusive nudge/indicator (banner, subtle flash, or sound) without interrupting writing |
 | F9 | **30.2** — Add keyword tagging for corpus documents (multiple tags per doc); searchable/filterable for topic collation and regrouping |
 | F10 | **36.1** — Add theme selector in Settings: at minimum Dark and Light themes |
+| F11 | **Editor** — Add image support: insert images via file upload or URL using standard markdown `![alt](src)` syntax; toolbar button to insert image placeholder; images render correctly in preview mode |
 
 ---
 
