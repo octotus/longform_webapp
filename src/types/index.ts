@@ -25,6 +25,7 @@ export interface ArticleReference {
   pages: string;
   bibtex: string;
   sortOrder: number;
+  tags: string[];
 }
 
 export interface NlpSnapshot {
@@ -85,6 +86,7 @@ export interface CorpusDocument {
   embedding: Uint8Array | null;
   addedAt: number;
   wordCount: number;
+  tags: string[];
 }
 
 export type ProviderType = 'OPENAI' | 'CLAUDE' | 'OLLAMA';

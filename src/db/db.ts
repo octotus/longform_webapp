@@ -27,6 +27,10 @@ export async function getDb(): Promise<Database> {
   // Create schema
   db.run(DDL);
 
+  // Migrations for existing DBs
+  try { db.run("ALTER TABLE corpus_documents ADD COLUMN tags TEXT NOT NULL DEFAULT ''"); } catch {}
+  try { db.run(`ALTER TABLE "references" ADD COLUMN tags TEXT NOT NULL DEFAULT ''`); } catch {}
+
   // Seed built-in citation styles
   for (const style of builtInStyles) {
     db.run(
@@ -49,8 +53,9 @@ export async function getDb(): Promise<Database> {
 export function persist() {
   if (!db) return;
   const data = db.export();
-  const base64 = btoa(String.fromCharCode(...data));
-  localStorage.setItem('longform_db', base64);
+  let binary = '';
+  for (let i = 0; i < data.length; i++) binary += String.fromCharCode(data[i]);
+  localStorage.setItem('longform_db', btoa(binary));
 }
 
 export function exportDb(): Uint8Array {

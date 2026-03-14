@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "references" (
   pages TEXT NOT NULL DEFAULT '',
   bibtex TEXT NOT NULL DEFAULT '',
   sortOrder INTEGER NOT NULL DEFAULT 0,
+  tags TEXT NOT NULL DEFAULT '',
   FOREIGN KEY (articleId) REFERENCES articles(id) ON DELETE CASCADE
 );
 
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS corpus_documents (
   contentText TEXT NOT NULL DEFAULT '',
   embedding BLOB,
   addedAt INTEGER NOT NULL,
-  wordCount INTEGER NOT NULL DEFAULT 0
+  wordCount INTEGER NOT NULL DEFAULT 0,
+  tags TEXT NOT NULL DEFAULT ''
 );
 `;

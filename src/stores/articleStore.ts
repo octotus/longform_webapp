@@ -14,7 +14,7 @@ interface ArticleState {
   load: () => Promise<void>;
   search: (q: string) => Promise<void>;
   setSort: (s: SortBy) => void;
-  createArticle: () => Promise<string>;
+  createArticle: (title: string) => Promise<string>;
   deleteArticle: (id: string) => Promise<void>;
 }
 
@@ -55,10 +55,10 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     set(state => ({ sortBy, articles: sortArticles(state.articles, sortBy) }));
   },
 
-  createArticle: async () => {
+  createArticle: async (title) => {
     const db = await getDb();
     const now = Date.now();
-    const article: Article = { id: uuid(), title: '', contentMd: '', createdAt: now, updatedAt: now, wordCount: 0, citationStyleId: 'nature' };
+    const article: Article = { id: uuid(), title: title.trim(), contentMd: '', createdAt: now, updatedAt: now, wordCount: 0, citationStyleId: 'nature' };
     repo.upsertArticle(db, article);
     await get().load();
     return article.id;

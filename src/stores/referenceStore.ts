@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { ArticleReference, CitationStyleConfig } from '../types';
+import { GLOBAL_ARTICLE_ID } from '../types';
 import { getDb } from '../db/db';
 import * as repo from '../db/repos/referenceRepo';
 import * as styleRepo from '../db/repos/citationStyleRepo';
@@ -11,6 +12,7 @@ interface RefState {
   articleId: string;
   references: ArticleReference[];
   citationStyle: CitationStyleConfig | null;
+  articleTitles: Record<string, string>;
   doiQuery: string;
   doiLoading: boolean;
   error: string | null;
@@ -27,6 +29,7 @@ export const useReferenceStore = create<RefState>((set, get) => ({
   articleId: '',
   references: [],
   citationStyle: null,
+  articleTitles: {},
   doiQuery: '',
   doiLoading: false,
   error: null,
@@ -37,7 +40,16 @@ export const useReferenceStore = create<RefState>((set, get) => ({
     const article = articleRepo.getArticleById(db, articleId);
     const styleEntity = article ? styleRepo.getStyleById(db, article.citationStyleId) : null;
     const citationStyle = styleEntity ? JSON.parse(styleEntity.schemaJson) as CitationStyleConfig : null;
-    set({ articleId, references: refs, citationStyle, error: null });
+
+    let articleTitles: Record<string, string> = {};
+    if (articleId === GLOBAL_ARTICLE_ID) {
+      const allArticles = articleRepo.getAllArticles(db);
+      for (const a of allArticles) {
+        articleTitles[a.id] = a.title;
+      }
+    }
+
+    set({ articleId, references: refs, citationStyle, articleTitles, error: null });
   },
 
   setDoiQuery: (doiQuery) => set({ doiQuery }),
@@ -50,9 +62,9 @@ export const useReferenceStore = create<RefState>((set, get) => ({
     try {
       const db = await getDb();
       const existing = repo.findByDoi(db, doi);
-      if (existing) { set({ error: `Already exists: "${existing.title || doi}" (${existing.shortcode})` }); return; }
+      if (existing) { set({ error: `Already exists: "${existing.title || doi}" (${existing.shortcode})`, doiLoading: false, doiQuery: '' }); return; }
       const res = await fetch(`https://api.crossref.org/works/${doi}`, { headers: { Accept: 'application/json', 'User-Agent': 'Longform/1.0' } });
-      if (!res.ok) { set({ error: `DOI not found (${res.status})` }); return; }
+      if (!res.ok) { set({ error: `DOI not found (${res.status})`, doiLoading: false }); return; }
       const data = await res.json();
       const msg = data.message ?? {};
       const title = msg.title?.[0] ?? '';
@@ -65,7 +77,11 @@ export const useReferenceStore = create<RefState>((set, get) => ({
       const volume = msg.volume ?? '';
       const pages = msg.page ?? '';
       const max = repo.maxSortOrder(db, articleId);
-      repo.upsertRef(db, { id: uuid(), articleId, shortcode: `ref${max + 1}`, doi, url: '', title, authors, year, journal, volume, issue: '', pages, bibtex: '', sortOrder: max + 1 });
+      const firstFamily = msg.author?.[0]?.family ?? '';
+      const shortcode = firstFamily && year
+        ? `${firstFamily.toLowerCase().replace(/[^a-z]/g, '')}${year}`
+        : `ref${max + 1}`;
+      repo.upsertRef(db, { id: uuid(), articleId, shortcode, doi, url: '', title, authors, year, journal, volume, issue: '', pages, bibtex: '', sortOrder: Date.now(), tags: [] });
       set({ doiQuery: '' });
       await get().load(articleId);
     } catch (e: any) {
@@ -79,7 +95,7 @@ export const useReferenceStore = create<RefState>((set, get) => ({
     const { articleId } = get();
     const db = await getDb();
     const max = repo.maxSortOrder(db, articleId);
-    repo.upsertRef(db, { id: uuid(), articleId, shortcode: `ref${max + 1}`, doi: '', url: '', title: '', authors: '', year: '', journal: '', volume: '', issue: '', pages: '', bibtex: '', sortOrder: max + 1 });
+    repo.upsertRef(db, { id: uuid(), articleId, shortcode: `ref${max + 1}`, doi: '', url: '', title: '', authors: '', year: '', journal: '', volume: '', issue: '', pages: '', bibtex: '', sortOrder: Date.now(), tags: [] });
     await get().load(articleId);
   },
 

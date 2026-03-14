@@ -22,8 +22,8 @@ function splitSentences(text: string): string[] {
 
 function splitWords(text: string): string[] {
   return text.split(/[\s\-—]+/)
-    .map(w => w.replace(/[^a-zA-Z']/g, ''))
-    .filter(w => w.length > 1);
+    .map(w => w.replace(/[^a-zA-Z0-9']/g, ''))
+    .filter(w => w.length > 0);
 }
 
 function countSyllables(word: string): number {
