@@ -176,13 +176,13 @@ export default function LibraryPage() {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <Link
                       to={`/references/${article.id}`}
-                      className="text-xs text-gray-400 hover:text-blue-400 px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                      className="text-xs text-gray-400 hover:text-blue-400 px-2 py-1 rounded border border-gray-600 hover:border-gray-600 hover:bg-gray-700 transition-colors"
                     >
                       Refs
                     </Link>
                     <Link
                       to={`/focus/${article.id}`}
-                      className="text-xs text-gray-400 hover:text-green-400 px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                      className="text-xs text-gray-400 hover:text-green-400 px-2 py-1 rounded border border-gray-600 hover:border-gray-600 hover:bg-gray-700 transition-colors"
                     >
                       Focus
                     </Link>
