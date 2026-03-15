@@ -233,7 +233,7 @@ export default function SettingsPage() {
             </button>
             <label className="bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-medium px-4 py-2 rounded transition-colors border border-gray-600 cursor-pointer">
               Restore from File
-              <input type="file" accept=".longform" onChange={handleRestore} className="hidden" />
+              <input type="file" accept=".likhitu" onChange={handleRestore} className="hidden" />
             </label>
           </div>
 

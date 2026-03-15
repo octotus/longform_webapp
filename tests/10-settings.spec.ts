@@ -92,5 +92,5 @@ test('27.2 fetch models button present', async ({ page }) => {
 
 test('settings back button returns to library', async ({ page }) => {
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Longform' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
 });

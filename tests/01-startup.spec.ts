@@ -22,22 +22,22 @@ test('1.2 no red console errors on load', async ({ page }) => {
   expect(jsErrors).toHaveLength(0);
 });
 
-test('1.3 longform_db key present after load', async ({ page }) => {
+test('1.3 likhitu_db key present after load', async ({ page }) => {
   await waitForApp(page);
-  const key = await page.evaluate(() => localStorage.getItem('longform_db'));
+  const key = await page.evaluate(() => localStorage.getItem('likhitu_db'));
   expect(key).not.toBeNull();
 });
 
-test('1.4 longform-settings key written after first change', async ({ page }) => {
+test('1.4 likhitu-settings key written after first change', async ({ page }) => {
   await waitForApp(page);
   // Trigger a settings write by navigating to settings and toggling theme
   await page.goto('/settings');
   await page.getByRole('button', { name: 'Dark' }).click();
-  const key = await page.evaluate(() => localStorage.getItem('longform-settings'));
+  const key = await page.evaluate(() => localStorage.getItem('likhitu-settings'));
   expect(key).not.toBeNull();
 });
 
 test('1.5 default route shows Library page', async ({ page }) => {
   await waitForApp(page);
-  await expect(page.getByRole('heading', { name: 'Longform' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
 });

@@ -1,5 +1,5 @@
-const PREFIX = 'longform-img-';
-const SCHEME = 'longform-img://';
+const PREFIX = 'likhitu-img-';
+const SCHEME = 'likhitu-img://';
 
 export function storeImage(dataUrl: string): string {
   const id = crypto.randomUUID();

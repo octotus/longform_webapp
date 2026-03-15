@@ -63,7 +63,7 @@ export const useReferenceStore = create<RefState>((set, get) => ({
       const db = await getDb();
       const existing = repo.findByDoi(db, doi);
       if (existing) { set({ error: `Already exists: "${existing.title || doi}" (${existing.shortcode})`, doiLoading: false, doiQuery: '' }); return; }
-      const res = await fetch(`https://api.crossref.org/works/${doi}`, { headers: { Accept: 'application/json', 'User-Agent': 'Longform/1.0' } });
+      const res = await fetch(`https://api.crossref.org/works/${doi}`, { headers: { Accept: 'application/json', 'User-Agent': 'Likhitu/1.0' } });
       if (!res.ok) { set({ error: `DOI not found (${res.status})`, doiLoading: false }); return; }
       const data = await res.json();
       const msg = data.message ?? {};

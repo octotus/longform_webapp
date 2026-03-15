@@ -16,7 +16,7 @@ export async function getDb(): Promise<Database> {
   });
 
   // Try to load from localStorage
-  const saved = localStorage.getItem('longform_db');
+  const saved = localStorage.getItem('likhitu_db');
   if (saved) {
     const buf = Uint8Array.from(atob(saved), c => c.charCodeAt(0));
     db = new SQL.Database(buf);
@@ -55,7 +55,7 @@ export function persist() {
   const data = db.export();
   let binary = '';
   for (let i = 0; i < data.length; i++) binary += String.fromCharCode(data[i]);
-  localStorage.setItem('longform_db', btoa(binary));
+  localStorage.setItem('likhitu_db', btoa(binary));
 }
 
 export function exportDb(): Uint8Array {
