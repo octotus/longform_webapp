@@ -1,4 +1,4 @@
-# Likhitu — Full Feature Test Plan
+# Likhatu — Full Feature Test Plan
 
 **App URL:** http://localhost:5173
 **Last updated:** 2026-03-14
@@ -70,9 +70,9 @@ All items to be actioned after testing is complete.
 |---|------|-----------------|--------|-------|
 | 1.1 | Open http://localhost:5173 in browser | Page loads without blank screen or JS console errors | [P] | |
 | 1.2 | Open DevTools → Console | No red errors; sql.js WASM loads silently | [P] | |
-| 1.3 | Open DevTools → Application → Local Storage | Key `likhitu_db` exists after first load | [P] | |
-| 1.4 | Open DevTools → Application → Local Storage | Key `likhitu-settings` exists | [P] | |
-| 1.5 | Verify the Library page is shown as the default route (`/`) | Library page renders with header "Likhitu" | [P] | |
+| 1.3 | Open DevTools → Application → Local Storage | Key `likhatu_db` exists after first load | [P] | |
+| 1.4 | Open DevTools → Application → Local Storage | Key `likhatu-settings` exists | [P] | |
+| 1.5 | Verify the Library page is shown as the default route (`/`) | Library page renders with header "Likhatu" | [P] | |
 
 ---
 
@@ -80,7 +80,7 @@ All items to be actioned after testing is complete.
 
 | # | Step | Expected Result | Status | Notes |
 |---|------|-----------------|--------|-------|
-| 2.1 | Observe header | Shows: "Likhitu" title, Global Refs, Corpus, Settings buttons, "+ New Article" button | [P] | |
+| 2.1 | Observe header | Shows: "Likhatu" title, Global Refs, Corpus, Settings buttons, "+ New Article" button | [P] | |
 | 2.2 | Observe body with no articles created | Empty-state message: "No articles yet. Click 'New Article' to get started." | [P] | Cache cleared to test |
 | 2.3 | Observe search bar | Visible, placeholder text "Search articles..." | [P] | |
 | 2.4 | Observe sort dropdown | Visible, default value "Modified" | [P] | |
@@ -470,8 +470,8 @@ All items to be actioned after testing is complete.
 | 32.3 | Settings persist after restart | Provider, Ollama URL/model restored | [P] | |
 | 32.4 | Corpus documents persist | Documents still present | [S] | Skipped — file upload broken (B8) |
 | 32.5 | Close tab, reopen | All data present | [P] | |
-| 32.6 | Check `likhitu_db` key | Present and non-empty | [P] | |
-| 32.7 | `likhitu_db` value | Long base64 string | [P] | |
+| 32.6 | Check `likhatu_db` key | Present and non-empty | [P] | |
+| 32.7 | `likhatu_db` value | Long base64 string | [P] | |
 
 ---
 
@@ -586,5 +586,5 @@ All items to be actioned after testing is complete.
 
 ---
 
-*Test run completed: 2026-03-14 · Commit `a397a9f` · likhitu_webapp*
+*Test run completed: 2026-03-14 · Commit `a397a9f` · likhatu_webapp*
 *Results: 166 Pass · 9 Fail · 30 Skip out of 196 tests*

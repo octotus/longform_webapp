@@ -1,6 +1,6 @@
 # Future Features
 
-A running list of ideas and improvements for Likhitu. Add to this freely — nothing here is committed to or prioritised.
+A running list of ideas and improvements for Likhatu. Add to this freely — nothing here is committed to or prioritised.
 
 ---
 

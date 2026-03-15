@@ -1,6 +1,6 @@
-# Likhitu — Session Context
+# Likhatu — Session Context
 
-**Project:** `/home/k/Claude_Projects/likhitu`
+**Project:** `/home/k/Claude_Projects/likhatu`
 **Last session date:** 2026-03-14
 **Git branch:** master
 **Last commit:** `eede0cf` — Post-test-run improvements and bug fixes (session 2)
@@ -12,7 +12,7 @@
 - React 19 + TypeScript + Vite
 - Tailwind CSS v4 — direct class overrides in `src/index.css` (variables don't work for bg-*)
 - CodeMirror 6 with oneDark theme — explicit CSS overrides needed for light mode
-- sql.js (SQLite WASM) — DB exported to localStorage as base64 (`likhitu_db`)
+- sql.js (SQLite WASM) — DB exported to localStorage as base64 (`likhatu_db`)
 - Zustand stores: editorStore, settingsStore, referenceStore, focusStore
 - React Router v6
 
@@ -38,7 +38,7 @@ The remaining work is resolving open bugs (see below) and retesting the image up
 | ID | Description | Status |
 |----|-------------|--------|
 | B-SS1 | Superscript/subscript not rendered in preview — remark-gfm doesn't support `^text^` / `~text~`. Needs `remark-supersub` plugin. | Unresolved |
-| B-IMG1 | Image file uploads embedded base64 data URLs in markdown which broke the markdown tokenizer (URL too long). Fixed via `likhitu-img://uuid` scheme — images stored separately in localStorage, resolved at render time in `urlTransform`. **Not yet retested.** | Fix applied, needs retest |
+| B-IMG1 | Image file uploads embedded base64 data URLs in markdown which broke the markdown tokenizer (URL too long). Fixed via `likhatu-img://uuid` scheme — images stored separately in localStorage, resolved at render time in `urlTransform`. **Not yet retested.** | Fix applied, needs retest |
 | B-OL1 | Ollama model fetch only returns one model. `m.name \|\| m.model` fallback applied but issue persists. Needs live debugging with actual Ollama response. | Unresolved |
 | B-TAG1 | Corpus tag chip × button `hover:text-red-400` not applying. Tailwind v4 CSS ordering issue; `!important` also ineffective. | Unresolved |
 | B-FOC1 | Focus timer clock invisible in light mode. `text-white` on light background. CSS override with `!important` and custom class attempted but ineffective. Tailwind v4 specificity issue. | Unresolved |
@@ -74,8 +74,8 @@ The remaining work is resolving open bugs (see below) and retesting the image up
 - Imported `getDb` + `articleRepo` to detect missing articles
 
 ### `src/pages/EditorPage.tsx`
-- Image upload: now stores data URL in localStorage as `likhitu-img-{uuid}`, inserts short `likhitu-img://uuid` reference in markdown (fixes tokenizer breakage)
-- `urlTransform` resolves `likhitu-img://uuid` → data URL at render time
+- Image upload: now stores data URL in localStorage as `likhatu-img-{uuid}`, inserts short `likhatu-img://uuid` reference in markdown (fixes tokenizer breakage)
+- `urlTransform` resolves `likhatu-img://uuid` → data URL at render time
 
 ### `src/pages/FocusPage.tsx`
 - Back button: bordered style
@@ -94,12 +94,12 @@ The remaining work is resolving open bugs (see below) and retesting the image up
 - Duplicate DOI: resets loading state and clears input on error
 
 ### `src/utils/backup.ts` (new)
-- `saveBackupSlot()`: collects DB + settings + all `likhitu-img-*` images → rotates 3 slots
+- `saveBackupSlot()`: collects DB + settings + all `likhatu-img-*` images → rotates 3 slots
 - `getBackupSlots()`, `clearBackupSlots()`, `downloadBackupSlot()`, `restoreFromPayload()`
 
 ### `src/utils/imageStore.ts` (new)
-- `storeImage(dataUrl)` → returns UUID, saves to `localStorage['likhitu-img-{uuid}']`
-- `resolveImageUrl(url)` → resolves `likhitu-img://uuid` → data URL
+- `storeImage(dataUrl)` → returns UUID, saves to `localStorage['likhatu-img-{uuid}']`
+- `resolveImageUrl(url)` → resolves `likhatu-img://uuid` → data URL
 - Used by EditorPage for image upload and preview rendering
 
 ### `src/App.tsx`
@@ -115,7 +115,7 @@ The remaining work is resolving open bugs (see below) and retesting the image up
 - **Disabled buttons**: `disabled:opacity-40 disabled:cursor-not-allowed`
 - **persist()**: always use `for` loop, never spread on Uint8Array (stack overflow risk)
 - **New refs**: always use `Date.now()` as sortOrder so they appear at top
-- **Images in markdown**: never embed base64 directly — use `likhitu-img://uuid` scheme
+- **Images in markdown**: never embed base64 directly — use `likhatu-img://uuid` scheme
 
 ---
 

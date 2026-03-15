@@ -242,7 +242,7 @@ export default function EditorPage() {
       const dataUrl = ev.target?.result as string;
       const id = storeImage(dataUrl);
       const alt = file.name.replace(/[[\]]/g, '');
-      insertAtCursor(`![${alt}](likhitu-img://`, `${id})`);
+      insertAtCursor(`![${alt}](likhatu-img://`, `${id})`);
       setShowImagePanel(false);
     };
     reader.readAsDataURL(file);

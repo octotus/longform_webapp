@@ -99,7 +99,7 @@ export default function LibraryPage() {
 
       {/* Top bar */}
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4 flex items-center gap-4">
-        <h1 className="text-xl font-bold text-white mr-auto">Likhitu</h1>
+        <h1 className="text-xl font-bold text-white mr-auto">Likhatu</h1>
         <Link to="/references/__global__" className="text-sm text-gray-300 hover:text-white px-3 py-1.5 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
           Global Refs
         </Link>

@@ -64,19 +64,19 @@ test('33.3 direct URL navigation loads correct article', async ({ page }) => {
 test('34.1 library to editor to back', async ({ page }) => {
   await createArticle(page, 'Nav Test');
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible();
 });
 
 test('34.2 library to settings to back', async ({ page }) => {
   await page.getByRole('link', { name: 'Settings' }).click();
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible();
 });
 
 test('34.3 library to corpus to back', async ({ page }) => {
   await page.getByRole('link', { name: 'Corpus' }).click();
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible();
 });
 
 test('34.4 editor to references to back', async ({ page }) => {

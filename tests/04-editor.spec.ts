@@ -60,7 +60,7 @@ test('7.3 title change persists to library', async ({ page }) => {
 
 test('7.4 back button returns to library', async ({ page }) => {
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible();
 });
 
 test('7.5 F5 hard reload retains content', async ({ page }) => {

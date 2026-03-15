@@ -1,4 +1,4 @@
-const IMG_PREFIX = 'likhitu-img-';
+const IMG_PREFIX = 'likhatu-img-';
 
 export interface BackupSlot {
   timestamp: number;
@@ -7,7 +7,7 @@ export interface BackupSlot {
   images: Record<string, string>; // id → data URL
 }
 
-const BACKUP_KEY = 'likhitu-backups';
+const BACKUP_KEY = 'likhatu-backups';
 const MAX_SLOTS = 3;
 
 function collectImages(): Record<string, string> {
@@ -28,8 +28,8 @@ function restoreImages(images: Record<string, string>): void {
 }
 
 export function saveBackupSlot(): void {
-  const db = localStorage.getItem('likhitu_db') ?? '';
-  const settings = localStorage.getItem('likhitu-settings') ?? '';
+  const db = localStorage.getItem('likhatu_db') ?? '';
+  const settings = localStorage.getItem('likhatu-settings') ?? '';
   const images = collectImages();
   const slot: BackupSlot = { timestamp: Date.now(), db, settings, images };
   const existing = getBackupSlots();
@@ -61,7 +61,7 @@ export function downloadBackupSlot(slot: BackupSlot): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `likhitu-backup-${new Date(slot.timestamp).toISOString().slice(0, 16).replace('T', '_')}.likhitu`;
+  a.download = `likhatu-backup-${new Date(slot.timestamp).toISOString().slice(0, 16).replace('T', '_')}.likhatu`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -69,7 +69,7 @@ export function downloadBackupSlot(slot: BackupSlot): void {
 export function restoreFromPayload(raw: string): void {
   const payload = JSON.parse(atob(raw));
   if (!payload.db || typeof payload.db !== 'string') throw new Error('Invalid backup file');
-  localStorage.setItem('likhitu_db', payload.db);
-  if (payload.settings) localStorage.setItem('likhitu-settings', payload.settings);
+  localStorage.setItem('likhatu_db', payload.db);
+  if (payload.settings) localStorage.setItem('likhatu-settings', payload.settings);
   if (payload.images && typeof payload.images === 'object') restoreImages(payload.images);
 }

@@ -9,7 +9,7 @@ export async function clearDb(page: Page) {
 }
 
 export async function waitForApp(page: Page) {
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible({ timeout: 15000 });
 }
 
 export async function createArticle(page: Page, title: string) {

@@ -8,12 +8,15 @@ import { GLOBAL_ARTICLE_ID } from '../types';
 
 let db: Database | null = null;
 
-/** One-time migration: rename all longform-* localStorage keys to likhitu-* */
+/** One-time migration: rename old localStorage keys to likhatu-* */
 function migrateStorageKeys() {
   const pairs: [string, string][] = [
-    ['longform_db',       'likhitu_db'],
-    ['longform-settings', 'likhitu-settings'],
-    ['longform-backups',  'likhitu-backups'],
+    ['longform_db',       'likhatu_db'],
+    ['longform-settings', 'likhatu-settings'],
+    ['longform-backups',  'likhatu-backups'],
+    ['likhitu_db',        'likhatu_db'],
+    ['likhitu-settings',  'likhatu-settings'],
+    ['likhitu-backups',   'likhatu-backups'],
   ];
   for (const [oldKey, newKey] of pairs) {
     if (!localStorage.getItem(newKey)) {
@@ -22,14 +25,15 @@ function migrateStorageKeys() {
     }
     localStorage.removeItem(oldKey);
   }
-  // Migrate longform-img-* keys
+  // Migrate longform-img-* and likhitu-img-* keys
   const imgKeys: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
-    if (k?.startsWith('longform-img-')) imgKeys.push(k);
+    if (k?.startsWith('longform-img-') || k?.startsWith('likhitu-img-')) imgKeys.push(k);
   }
   for (const key of imgKeys) {
-    const newKey = 'likhitu-img-' + key.slice('longform-img-'.length);
+    const suffix = key.startsWith('longform-img-') ? key.slice('longform-img-'.length) : key.slice('likhitu-img-'.length);
+    const newKey = 'likhatu-img-' + suffix;
     if (!localStorage.getItem(newKey)) localStorage.setItem(newKey, localStorage.getItem(key)!);
     localStorage.removeItem(key);
   }
@@ -45,7 +49,7 @@ export async function getDb(): Promise<Database> {
   });
 
   // Try to load from localStorage
-  const saved = localStorage.getItem('likhitu_db');
+  const saved = localStorage.getItem('likhatu_db');
   if (saved) {
     const buf = Uint8Array.from(atob(saved), c => c.charCodeAt(0));
     db = new SQL.Database(buf);
@@ -84,7 +88,7 @@ export function persist() {
   const data = db.export();
   let binary = '';
   for (let i = 0; i < data.length; i++) binary += String.fromCharCode(data[i]);
-  localStorage.setItem('likhitu_db', btoa(binary));
+  localStorage.setItem('likhatu_db', btoa(binary));
 }
 
 export function exportDb(): Uint8Array {

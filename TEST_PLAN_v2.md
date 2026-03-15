@@ -1,4 +1,4 @@
-# Likhitu — Test Plan v2
+# Likhatu — Test Plan v2
 
 **App URL:** http://localhost:5173
 **Version:** Post-feature-sprint (all bugs, improvements, and features resolved)
@@ -35,9 +35,9 @@
 |---|------|----------|--------|-------|
 | 1.1 | Open http://localhost:5173 | Page loads; no blank screen; no JS console errors | [P] | |
 | 1.2 | DevTools → Console | No red errors; sql.js WASM loads silently | [P] | Console warning: "form field element has neither an id nor a name attribute" — search input and sort dropdown on Library page. Accessibility issue; fixed. |
-| 1.3 | DevTools → Application → Local Storage | `likhitu_db` key present after first load | [P] | |
-| 1.4 | DevTools → Application → Local Storage | `likhitu-settings` key present | [P] | |
-| 1.5 | Observe default route | Library page renders with "Likhitu" heading | [P] | |
+| 1.3 | DevTools → Application → Local Storage | `likhatu_db` key present after first load | [P] | |
+| 1.4 | DevTools → Application → Local Storage | `likhatu-settings` key present | [P] | |
+| 1.5 | Observe default route | Library page renders with "Likhatu" heading | [P] | |
 
 ---
 
@@ -45,7 +45,7 @@
 
 | # | Step | Expected | Status | Notes |
 |---|------|----------|--------|-------|
-| 2.1 | Observe header | "Likhitu" title · Global Refs · Corpus · Settings · "+ New Article" | [P] | |
+| 2.1 | Observe header | "Likhatu" title · Global Refs · Corpus · Settings · "+ New Article" | [P] | |
 | 2.2 | Fresh/empty state | "No articles yet" message with instruction text | [P] | |
 | 2.3 | Search bar | Visible, placeholder "Search articles..." | [P] | |
 | 2.4 | Sort dropdown | Visible, default "Modified" | [P] | |
@@ -599,7 +599,7 @@
 - **Wake Lock:** Chrome/Edge on HTTPS or localhost only.
 - **Citation rendering in preview:** `[@ref:shortcode]` not yet resolved in preview (shown as raw text).
 - **Light theme — dynamic colours:** Some UI elements (streaming text, progress bars) may not invert perfectly; blue/green/red accents are intentionally constant across themes.
-- **Image data URLs:** Large images inserted as data URLs inflate the `likhitu_db` localStorage key significantly. No size warning is shown; no compression is applied. Consider using URL references instead of file uploads for large images.
+- **Image data URLs:** Large images inserted as data URLs inflate the `likhatu_db` localStorage key significantly. No size warning is shown; no compression is applied. Consider using URL references instead of file uploads for large images.
 - **Existing articles with empty titles:** Articles created before the dialog was introduced may still have empty titles; the global refs view falls back to displaying the article ID.
 
 ---

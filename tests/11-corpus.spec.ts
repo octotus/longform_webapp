@@ -43,5 +43,5 @@ test('22.1 file upload input has correct accept attribute', async ({ page }) => 
 
 test('corpus back button returns to library', async ({ page }) => {
   await page.getByRole('button', { name: '← Back' }).click();
-  await expect(page.getByRole('heading', { name: 'Likhitu' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Likhatu' })).toBeVisible();
 });

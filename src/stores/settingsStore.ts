@@ -62,6 +62,6 @@ export const useSettingsStore = create<SettingsState>()(
         }
       },
     }),
-    { name: 'likhitu-settings' }
+    { name: 'likhatu-settings' }
   )
 );
