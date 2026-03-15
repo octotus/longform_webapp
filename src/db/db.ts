@@ -8,8 +8,37 @@ import { GLOBAL_ARTICLE_ID } from '../types';
 
 let db: Database | null = null;
 
+/** One-time migration: rename all longform-* localStorage keys to likhitu-* */
+function migrateStorageKeys() {
+  const pairs: [string, string][] = [
+    ['longform_db',       'likhitu_db'],
+    ['longform-settings', 'likhitu-settings'],
+    ['longform-backups',  'likhitu-backups'],
+  ];
+  for (const [oldKey, newKey] of pairs) {
+    if (!localStorage.getItem(newKey)) {
+      const val = localStorage.getItem(oldKey);
+      if (val) { localStorage.setItem(newKey, val); }
+    }
+    localStorage.removeItem(oldKey);
+  }
+  // Migrate longform-img-* keys
+  const imgKeys: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k?.startsWith('longform-img-')) imgKeys.push(k);
+  }
+  for (const key of imgKeys) {
+    const newKey = 'likhitu-img-' + key.slice('longform-img-'.length);
+    if (!localStorage.getItem(newKey)) localStorage.setItem(newKey, localStorage.getItem(key)!);
+    localStorage.removeItem(key);
+  }
+}
+
 export async function getDb(): Promise<Database> {
   if (db) return db;
+
+  migrateStorageKeys();
 
   const SQL = await initSqlJs({
     locateFile: (_file: string) => `/sql-wasm-browser.wasm`
