@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { EditorView } from '@codemirror/view';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkSupersub from 'remark-supersub';
 import { useEditorStore } from '../stores/editorStore';
 import { MarkdownEditor } from '../components/MarkdownEditor';
 import { useFocusStore } from '../stores/focusStore';
@@ -288,11 +289,11 @@ export default function EditorPage() {
         <span className="text-xs text-gray-500 mr-2">{article.wordCount.toLocaleString()} words</span>
         {/* Timer chip */}
         {sessionActive && (
-          <span className="bg-blue-900 text-blue-200 rounded px-2 py-1 text-xs flex items-center gap-2">
+          <span className="focus-timer-chip bg-blue-900 text-blue-200 rounded px-2 py-1 text-xs flex items-center gap-2">
             ⏱ {formatTime(remainingSeconds)}
             <button
               onClick={endSession}
-              className="text-blue-300 hover:text-white transition-colors"
+              className="focus-timer-end text-blue-300 hover:text-white transition-colors"
             >
               End
             </button>
@@ -452,7 +453,7 @@ export default function EditorPage() {
             <div className="h-full overflow-auto p-8">
               <div className="max-w-3xl mx-auto text-gray-300 leading-relaxed">
                 <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
+                  remarkPlugins={[remarkSupersub, [remarkGfm, { singleTilde: false }]]}
                   urlTransform={(url) => resolveImageUrl(url)}
                   components={{
                   h1: ({children}) => <h1 className="text-3xl font-bold text-gray-100 mb-4 mt-6 border-b border-gray-700 pb-2">{children}</h1>,

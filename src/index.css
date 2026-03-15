@@ -30,6 +30,11 @@ html.light-theme .bg-gray-950 { background-color: #f3f4f6 !important; }
 html.light-theme .focus-timer { color: #111827 !important; }
 html.light-theme .focus-subtitle { color: #374151 !important; }
 
+/* Focus timer chip in editor header */
+html.light-theme .focus-timer-chip { background-color: #e5e7eb !important; color: #111827 !important; }
+html.light-theme .focus-timer-end { color: #374151 !important; }
+html.light-theme .focus-timer-end:hover { color: #000 !important; }
+
 html.light-theme .hover\:bg-blue-700:hover { background-color: #fef3c7; color: #92400e; }
 html.light-theme .hover\:bg-blue-600:hover { background-color: #fef3c7; color: #92400e; }
 html.light-theme .hover\:border-blue-500:hover { border-color: #d97706; }

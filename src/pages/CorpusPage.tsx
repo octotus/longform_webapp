@@ -140,6 +140,11 @@ export default function CorpusPage() {
   const [pendingBatch, setPendingBatch] = useState<Array<{ title: string; content: string }> | null>(null);
   const [batchTagInput, setBatchTagInput] = useState('');
   const [batchTags, setBatchTags] = useState<string[]>([]);
+  const [urlTags, setUrlTags] = useState<string[]>([]);
+  const [urlTagInput, setUrlTagInput] = useState('');
+  const [pendingFile, setPendingFile] = useState<{ title: string; content: string } | null>(null);
+  const [fileTags, setFileTags] = useState<string[]>([]);
+  const [fileTagInput, setFileTagInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadDocs = async () => {
@@ -158,6 +163,16 @@ export default function CorpusPage() {
     setActiveTag(null);
     setDeleteTagConfirm(false);
     setConfirmDeleteTag(null);
+    await loadDocs();
+  };
+
+  const handleFileImport = async () => {
+    if (!pendingFile) return;
+    const db = await getDb();
+    upsertDoc(db, { id: uuid(), title: pendingFile.title, sourceUrl: '', contentText: pendingFile.content, embedding: null, addedAt: Date.now(), wordCount: countWords(pendingFile.content), tags: [...fileTags] });
+    setPendingFile(null);
+    setFileTags([]);
+    setFileTagInput('');
     await loadDocs();
   };
 
@@ -197,10 +212,12 @@ export default function CorpusPage() {
         embedding: null,
         addedAt: Date.now(),
         wordCount: countWords(plainText),
-        tags: [],
+        tags: [...urlTags],
       });
       setUrlInput('');
       setTitleInput('');
+      setUrlTags([]);
+      setUrlTagInput('');
       await loadDocs();
     } catch (e: any) {
       const msg = e.message ?? '';
@@ -240,8 +257,9 @@ export default function CorpusPage() {
           setBatchTags([]);
           setBatchTagInput('');
         } else {
-          upsertDoc(db, { id: uuid(), title: file.name, sourceUrl: '', contentText: text, embedding: null, addedAt: Date.now(), wordCount: countWords(text), tags: [] });
-          await loadDocs();
+          setPendingFile({ title: file.name, content: text });
+          setFileTags([]);
+          setFileTagInput('');
         }
       } catch (err: any) {
         setError(`File upload failed: ${err.message}`);
@@ -389,6 +407,29 @@ export default function CorpusPage() {
                 {loading ? 'Fetching...' : 'Add'}
               </button>
             </div>
+            <div className="flex flex-wrap items-center gap-1 pt-1">
+              {urlTags.map(t => (
+                <span key={t} className="inline-flex items-center gap-0.5 text-xs bg-blue-900/40 text-blue-300 border border-blue-700/50 px-1.5 py-0.5 rounded">
+                  {t}
+                  <button onClick={() => setUrlTags(prev => prev.filter(x => x !== t))} className="text-gray-400 hover:text-white ml-0.5 font-bold">×</button>
+                </span>
+              ))}
+              <input
+                type="text"
+                value={urlTagInput}
+                onChange={e => setUrlTagInput(e.target.value)}
+                onKeyDown={e => {
+                  if ((e.key === 'Enter' || e.key === ',') && urlTagInput.trim()) {
+                    e.preventDefault();
+                    const t = urlTagInput.trim().replace(/,$/, '');
+                    if (t && !urlTags.includes(t)) setUrlTags(prev => [...prev, t]);
+                    setUrlTagInput('');
+                  }
+                }}
+                placeholder="Add tag…"
+                className="text-xs bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-500 rounded px-2 py-1 w-24 focus:outline-none focus:border-blue-500"
+              />
+            </div>
           </div>
           {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
         </div>
@@ -411,6 +452,55 @@ export default function CorpusPage() {
             {fileLoading ? 'Reading file...' : 'Choose Text File (.txt, .md, .csv, .json)'}
           </button>
         </div>
+
+        {/* Pending single file import panel */}
+        {pendingFile && (
+          <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-5 space-y-3">
+            <div>
+              <p className="text-base font-semibold text-blue-300 mb-1">"{pendingFile.title}" ready to import</p>
+              <p className="text-xs text-blue-400">Add tags (optional) then click Import.</p>
+            </div>
+            <div className="flex flex-wrap gap-1 mb-1">
+              {fileTags.map(t => (
+                <span key={t} className="inline-flex items-center gap-1 text-xs bg-blue-800/50 text-blue-200 border border-blue-700 px-2 py-0.5 rounded">
+                  {t}
+                  <button onClick={() => setFileTags(prev => prev.filter(x => x !== t))} className="text-blue-400 hover:text-white">×</button>
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={fileTagInput}
+                onChange={e => setFileTagInput(e.target.value)}
+                onKeyDown={e => {
+                  if ((e.key === 'Enter' || e.key === ',') && fileTagInput.trim()) {
+                    e.preventDefault();
+                    const t = fileTagInput.trim().replace(/,$/, '');
+                    if (t && !fileTags.includes(t)) setFileTags(prev => [...prev, t]);
+                    setFileTagInput('');
+                  }
+                }}
+                placeholder="Type a tag and press Enter…"
+                className="flex-1 bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-500 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div className="flex gap-2 pt-1">
+              <button
+                onClick={handleFileImport}
+                className="bg-blue-700 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded transition-colors"
+              >
+                Import
+              </button>
+              <button
+                onClick={() => { setPendingFile(null); setFileTags([]); setFileTagInput(''); }}
+                className="text-sm text-gray-400 hover:text-white px-3 py-2 rounded border border-gray-600 hover:border-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Batch import tag panel */}
         {pendingBatch && (
