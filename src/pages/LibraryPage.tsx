@@ -204,7 +204,7 @@ export default function LibraryPage() {
                     ) : (
                       <button
                         onClick={() => setDeleteConfirm(article.id)}
-                        className="text-xs text-gray-600 hover:text-red-400 px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+                        className="text-xs text-gray-600 hover:text-red-400 px-2 py-1 rounded border border-gray-600 hover:bg-gray-700 transition-colors"
                       >
                         Delete
                       </button>
