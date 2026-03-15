@@ -54,7 +54,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
 
   loadArticle: async (id) => {
     // Reset state immediately so previous article doesn't bleed through (B3)
-    set({ article: { id: '', title: '', contentMd: '', createdAt: 0, updatedAt: 0, wordCount: 0, citationStyleId: 'nature' }, nlpResult: null });
+    set({ article: { id: '', title: '', contentMd: '', createdAt: 0, updatedAt: 0, wordCount: 0, citationStyleId: 'nature' }, nlpResult: null, researchQuery: '', researchResponse: '' });
     const db = await getDb();
     const article = articleRepo.getArticleById(db, id);
     if (!article) return;
