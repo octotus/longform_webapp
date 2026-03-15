@@ -12,9 +12,9 @@ html.light-theme .hover\:bg-gray-800:hover { background-color: #e5e7eb; }
 html.light-theme .hover\:bg-gray-700:hover { background-color: #d1d5db; }
 html.light-theme .hover\:bg-gray-600:hover { background-color: #9ca3af; }
 
-html.light-theme .border-gray-700 { border-color: #d1d5db; }
-html.light-theme .border-gray-600 { border-color: #9ca3af; }
-html.light-theme .hover\:border-gray-600:hover { border-color: #9ca3af; }
+html.light-theme .border-gray-700 { border-color: #9ca3af; }
+html.light-theme .border-gray-600 { border-color: #6b7280; }
+html.light-theme .hover\:border-gray-600:hover { border-color: #6b7280; }
 
 html.light-theme .text-white  { color: #111827; }
 html.light-theme .text-gray-100 { color: #1f2937; }
@@ -22,7 +22,7 @@ html.light-theme .text-gray-200 { color: #374151; }
 html.light-theme .text-gray-300 { color: #4b5563; }
 html.light-theme .text-gray-400 { color: #374151; }
 html.light-theme .text-gray-500 { color: #9ca3af; }
-html.light-theme .text-gray-600 { color: #d1d5db; }
+html.light-theme .text-gray-600 { color: #374151; }
 html.light-theme .hover\:text-white:hover { color: #111827; }
 
 /* Focus active session — keep readable in light mode */
